@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<title>Forge&sup2;</title>
+
+<meta charset="UTF-8">
+
+<link rel="icon" type="image/png" href="./images/forgesquaredlogo.png" />
+<link rel="stylesheet" href="index.css">
+<link id="shared-style" rel="stylesheet" href="shared.css">
+
+<div id="nav-sidebar" class="sidebar">
+    <a href="#recipes" onclick="loadPage('./html/recipes.html')" >Recipes</a>
+    <a href="#descriptions" onclick="loadPage('./html/descriptions.html')" >Descriptions</a>
+    <a href="#properties" onclick="loadPage('./html/properties.html')" >Properties</a>
+    <a href="#stations" onclick="loadPage('./html/stations.html')" >Stations</a>
+    <a href="#tree" onclick="loadPage('./html/tree.html')" >Tree</a>
+    <a href="#files" onclick="loadPage('./html/files.html')">Files</a>
+
+    <a id="sidebar-reset" href="#reset" onclick="loadPage('./html/reset.html')"><b>Reset</b></a>
+    
+</div>
+<div class="sidebar-button" id="sidebar-button-container">
+    <button onclick="toggleNav()">&#9776;<img src="./images/forgesquaredlogo.png"></button>
+</div>
+
+<iframe id="content"></iframe>
+
+<script src="./index.js"></script>
+<script>
+    loadPage('./html/landing.html');
+</script>
+
+</html>

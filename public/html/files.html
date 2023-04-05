@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+
+<link rel="stylesheet" href="../style/files.css">
+<link id="shared-style" rel="stylesheet" href="../shared.css">
+
+<div class="title">
+    <h1>
+        Save / Load File
+    </h1>
+</div>
+
+<div id="content">
+    <span id="save-options" class="save-config-container">
+        <h2 class="save-header">Save Options</h2>
+        <div class="save-option">
+            <span class="switch-text">
+                <p><b>Save Recipes</b></p>
+            </span>
+            <label class="switch">
+                <input type="checkbox" id="recipe-save-option" onchange="saveSettings.recipes = this.checked">
+                <span class="slider"></span>
+                <div class="tooltip">
+                    <div class="left">
+                        <p>Includes recipes in the generated file.</p>
+                        <i></i>
+                    </div>
+                </div>
+            </label>
+        </div>
+        <div class="save-option-vert">
+            <div>
+                <p><b>Item Data</b></p>
+            </div>
+            <div class="vert-option-row">
+                <span class="switch-text">
+                    <p><b>Save Item Desc.</b></p>
+                </span>
+                <label class="switch">
+                    <input type="checkbox" id="descriptions-save-option" onchange="saveSettings.descriptions = this.checked">
+                    <span class="slider"></span>
+                    <div class="tooltip">
+                        <div class="left">
+                            <p>Includes item descriptions in the generated file.</p>
+                            <i></i>
+                        </div>
+                    </div>
+                </label>
+            </div>
+            <div class="vert-option-row">
+                <span class="switch-text">
+                    <p><b>Save Item Img.</b></p>
+                </span>
+                <label class="switch">
+                    <input type="checkbox" id="images-save-option" onchange="saveSettings.images = this.checked">
+                    <span class="slider"></span>
+                    <div class="tooltip">
+                        <div class="left">
+                            <p>Includes item images as base64 data if only one file is generated, and individual item image files if a zip is generated. Due to file size, the latter is recommended.</p>
+                            <i></i>
+                        </div>
+                    </div>
+                </label>
+            </div>
+        </div>
+    </span>
+    <span id="file-config" class="save-config-container">
+        <h2 class="save-header">File Configuration</h2>
+        <div class="save-option">
+            <span class="switch-text">
+                <p><b>Save to Zip</b></p>
+            </span>
+            <label class="switch">
+                <input type="checkbox" id="zip-option" onchange="saveSettings.zip = this.checked;">
+                <span class="slider"></span>
+                <div class="tooltip">
+                    <div class="left">
+                        <p>Generates the file as a .zip. This is recommended for large systems, and strongly recommended if data needs to be readable with images.</p>
+                        <i></i>
+                    </div>
+                </div>
+            </label>
+        </div>
+    </span>
+    <span id="title-description" class="save-config-container">
+        <h2 class="save-header">Metadata</h2>
+        <div class="save-option">
+            <span>
+                <p><b>Title</b></p>
+            </span>
+            <input type="text" id="title-input" oninput="saveSettings.title = this.value;"></input>
+        </div>
+        <div class="save-option-vert">
+            <div>
+                <p><b>Description</b></p>
+            </div>
+            <textarea id="description-input" rows="4" oninput="saveSettings.description = this.value;"></textarea>
+        </div>
+        <div class="save-option">
+            <span class="switch-text">
+                <p><b>Save Settings</b></p>
+            </span>
+            <label class="switch">
+                <input type="checkbox" id="settings-save-option" onchange="saveSettings.settings = this.checked;">
+                <span class="slider"></span>
+                <div class="tooltip">
+                    <div class="left">
+                        <p>Saves these settings in the generated file.</p>
+                        <i></i>
+                    </div>
+                </div>
+            </label>
+        </div>
+    </span>
+</div>
+<div id="save-load-container">
+    <div id="save-instructions">
+        <p>
+            Generate Save makes a file for you to save anywhere you'd like. To load a save, simply select the file that was generated, whether it is a .json or a .zip.
+        </p>
+    </div>
+    <button id="generate-save-btn" onclick="generateSave()">Generate Save</button>
+    <div id="load-btn-container">
+        <button id="load-save-btn" onclick="this.parentElement.querySelector('#file-selector').click()">Load Save</button>
+        <input type="file" id="file-selector" onchange="loadSave(this)" accept=".json, .zip" hidden></input>
+        <p id="load-status"></p>
+    </div>
+</div>
+
+<script src="../js/jszip.min.js"></script>
+<script src="../js/FileSaver.min.js"></script>
+<script src="../js/files.js"></script>

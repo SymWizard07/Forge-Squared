@@ -1,0 +1,79 @@
+#content {
+    background-color: #fffcf0;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 8%;
+    width: 70%;
+    height: 50vh;
+    border: 3px solid black;
+    padding: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    z-index: -2;
+}
+
+#reset-description p {
+    display: block;
+    text-align: center;
+}
+
+.button-container {
+    position: relative;
+    height: 100px;
+}
+
+.reset-btn {
+    width: 150px;
+    height: 50px;
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: calc(50% - 75px);
+    transition: all 0.5s ease;
+    z-index: 2;
+}
+
+.reset-btn:hover {
+    background-color: #9a0000;
+}
+
+.reset-confirm {
+    width: 150px;
+    height: 50px;
+    background-color: #ffcc00;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: calc(50% - 75px);
+    transform: translateY(0%);
+    z-index: 1;
+    transition: all 0.5s ease;
+}
+
+.reset-confirm:hover {
+    background-color: #ab8800;
+}
+
+.reset-confirmed-text {
+    position: absolute;
+    display: block;
+    width: 150px;
+    height: 50px;
+    top: 50%;
+    left: calc(50% - 75px);
+    text-align: center;
+    z-index: 0;
+}
+
+.visible {
+    transform: translateY(100%);
+    z-index: 1;
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+
+<link rel="stylesheet" href="../style/recipes.css">
+<link id="shared-style" rel="stylesheet" href="../shared.css">
+
+<div class="title">
+    <h1>
+        Recipe Maker
+    </h1>
+</div>
+
+<div id="content">
+    <div id="filter-container">
+        <div class="dropdown">
+            <button onclick="openDropdown()" class="dropbtn" id="filter-dropdown-button">Ingredient ▼</button>
+            <div id="filter-dropdown" class="dropdown-content">
+              <a onclick="setFilter('ingredient')">Ingredient</a>
+              <a onclick="setFilter('result')">Result</a>
+            </div>
+          </div> 
+        <input type="text" id="item-filter" placeholder="Item Filter (Leave Blank for All)">
+        <button onclick="applyFilter()" id="apply-filter"><img src="../images/filter.png" width="100%" height="100%"></button>
+    </div>
+
+    <div id="recipe-table-container">
+        <table class="recipe-table" id="recipe-table">
+            <tr>
+                <th class="ingredient">
+                    Ingredient
+                </th>
+                <th class="result">
+                    Result
+                </th>
+            </tr>
+            <tr id="recipe-template" hidden>
+                <th class="ingredient">
+                    <div class="inital">
+                        <input type="text" placeholder="Enter Ingredient" oninput="updateText(this, true)" class="input-text"></input>
+                        <input type="number" placeholder="# of" min="1" value="1" oninput="updateNum(this, true)" class="input-num"></input>
+                        <button tabindex="-1" onclick="addRecipeInput(this.parentElement)">+</button>
+                    </div>
+                </th>
+                <th class="result">
+                    <div class="inital">
+                        <input type="text" placeholder="Enter Result" oninput="updateText(this, false)" class="input-text"></input>
+                        <input type="number" placeholder="# of" min="1" value="1" oninput="updateNum(this, false)" class="input-num"></input>
+                        <button tabindex="-1" onclick="addRecipeInput(this.parentElement)">+</button>
+                    </div>
+                </th>
+            </tr>
+        </table>
+        <button id="remove-recipe-template" class="remove-recipe" tabindex="-1" onclick="removeRecipe(this, true)">-</button>
+    </div>
+
+    <button id="add-recipe" onclick="addRecipe()">Add Recipe</button>
+</div>
+
+<button id="remove-recipe-template" hidden>-</button>
+
+<script src="../js/recipes.js"></script>

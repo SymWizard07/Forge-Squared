@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+
+<link rel="stylesheet" href="../style/descriptions.css">
+<link id="shared-style" rel="stylesheet" href="../shared.css">
+
+<div class="title">
+    <h1>
+        Description Writer
+    </h1>
+</div>
+
+<div id="content">
+    <div class="index-container">
+        <div class="filter-container">
+            <input type="text" class="item-filter" oninput="applyFilter()" placeholder="Item Search">
+        </div>
+        <div class="add-item-container">
+            <input class="name-input" type="text" placeholder="Add Item"></input>
+            <button class="add-button" onclick="addItem()">↩</button>
+        </div>
+        <div class="index-list">
+            <div class="index-item-template" hidden>
+                <a class="item-link" onclick="displayDescription(this)"></a>
+                <div class="item-selector" hidden>▸</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="description-container">
+        <h3 id="inital-description-message" style="margin: auto; width: fit-content;">Click an item to access its
+            description page</h3>
+        <textarea id="description-area" oninput="updateDescription(this)" placeholder="Write your description here..."
+            hidden></textarea>
+        <label id="file-input" class="custom-file-input" for="Upload" hidden>
+            <input id="Upload" type="file" name="_photos" accept="image/*" style="visibility: hidden"
+                onchange="encodeImageFileAsURL(this)" hidden>
+        </label>
+        <button id="remove-item" onclick="removeItem()" hidden>Remove Item Description</button>
+        <img id="item-image">
+    </div>
+</div>
+
+<script src="../js/descriptions.js"></script>

@@ -1,0 +1,201 @@
+body {
+  margin-top: 8%;
+}
+
+.title {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 8%;
+  border-bottom: 2px solid #61666A;
+  background-color: #918E85;
+  position: fixed;
+  z-index: 1;
+}
+
+.title h1 {
+  font-family: 'anglorunic';
+  margin: 0;
+  height: 100%;
+  bottom: 8%;
+  width: 100%;
+  text-align: center;
+  font-size: 8vh;
+  position: absolute;
+}
+
+.tooltip {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  top: -58%;
+}
+
+#content {
+  background-color: #fffcf0;
+  border-radius: 5px;
+  margin: auto;
+  width: 70%;
+  height: 50vh;
+  border: 3px solid black;
+  padding: auto;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.save-header {
+  width: fit-content;
+  font-family: "anglorunic";
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.save-config-container {
+  width: 30%;
+  height: 90%;
+}
+
+.save-option {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+  justify-content: space-around;
+  outline: 1px solid black;
+  outline-offset: -5px;
+  border-radius: 2px;
+  padding: 5px;
+}
+
+.save-option-vert {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+  justify-content: space-around;
+  outline: 1px solid black;
+  outline-offset: -5px;
+  border-radius: 2px;
+  padding: 5px;
+}
+
+.vert-option-row {
+  display: inline-flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+}
+
+#description-input {
+  resize: none;
+  width: 80%;
+  background-color: #bebbaf;
+}
+
+.switch-text {
+  width: 40%;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked+.slider {
+  background-color: #2196F3;
+}
+
+input:focus+.slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+#save-load-container {
+  background-color: #fffcf0;
+  border-radius: 5px;
+  margin: auto;
+  width: 70%;
+  height: 30vh;
+  border: 3px solid black;
+  display: flex;
+  justify-content: space-around;
+}
+
+#save-instructions {
+  position: absolute;
+  width: 35%;
+  text-align: center;
+}
+
+#save-load-container button {
+  background-color: var(--button-bg-color);
+  border: 2px solid var(--button-border-color);
+  color: var(--button-color);
+  font-family: 'anglorunic';
+  font-size: 180%;
+  display: block;
+  height: 40%;
+  width: 20%;
+  margin-top: 8%;
+}
+#save-load-container button:hover {
+  background-color: var(--button-hover-color);
+}
+#save-load-container button:active {
+  background-color: var(--button-click-color);
+}
+
+#load-btn-container {
+  display: block;
+  width: 20%;
+  height: 40%;
+  margin-top: 8%;
+}
+#load-btn-container button {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
