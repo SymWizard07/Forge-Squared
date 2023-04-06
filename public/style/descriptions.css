@@ -26,8 +26,12 @@ body {
 
 #content {
     margin: auto;
-    width: 50%;
+    width: 60%;
     height: auto;
+}
+
+#description-index-list {
+    width: calc(50% - 8px);
 }
 
 #description-container {

@@ -2,15 +2,15 @@ var recipeData = window.parent.recipeData;
 
 var activeDescription;
 
-document.querySelector(".add-item-name").addEventListener("keypress", e => {
+document.querySelector(".name-input").addEventListener("keypress", e => {
     if (e.key == "Enter") {
         addItem();
     }
 });
 
 function addItem() {
-    let newItemName = document.querySelector(".add-item-name").value;
-    document.querySelector(".add-item-name").value = "";
+    let newItemName = document.querySelector(".name-input").value;
+    document.querySelector(".name-input").value = "";
 
     let itemExists = false;
     recipeData.items.forEach(item => {
@@ -37,10 +37,10 @@ function addItem() {
 }
 
 function displayItem(item, top) {
-    let indexList = document.getElementById("item-index-container");
+    let indexList = document.querySelector(".index-container .index-list");
 
-    let newItem = document.querySelector("#item-index-container .item-index-template").cloneNode(true);
-    newItem.className = "item-index";
+    let newItem = document.querySelector(".index-container .index-list .index-item-template").cloneNode(true);
+    newItem.className = "index-item";
     newItem.hidden = false;
     newItem.querySelector("a").textContent = item;
 
@@ -150,24 +150,19 @@ function removeItem() {
     }
 }
 
-document.getElementById("item-filter").addEventListener("keypress", e => {
+document.querySelector(".item-filter").addEventListener("keypress", e => {
     if (e.key == "Enter") {
         applyFilter();
     }
 });
 
 function applyFilter() {
-    document.querySelectorAll("#item-index-container .item-index").forEach(e => {
+    document.querySelectorAll(".index-container .index-list .index-item").forEach(e => {
         e.remove();
     })
 
-    let filterText = document.querySelector("#item-filter").value;
+    let filterText = document.querySelector(".item-filter").value;
     filterText = filterText.toLowerCase();
-
-    let removeBtn = document.querySelectorAll(".remove-recipe");
-    removeBtn.forEach(element => {
-        removeRecipe(element, false);
-    });
 
     let filteredStrings = [];
 

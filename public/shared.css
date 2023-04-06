@@ -76,7 +76,7 @@
 /* Global Index List Style */
 
 .index-container {
-    width: calc(50% - 8px);
+    min-width: fit-content;
     height: 100%;
     margin: 0;
     border: 2px double black;
@@ -129,6 +129,7 @@
 .index-container .index-list {
     overflow-y: scroll;
     background-color: #61666A;
+    height: 70vh;
 }
 
 .index-container .index-list .index-item {

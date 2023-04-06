@@ -9,21 +9,21 @@
 </div>
 
 <div id="content">
-    <span id="property-index-container">
-        <div id="filter-container">
-            <input type="text" id="property-filter" oninput="applyFilter()" placeholder="Property Search">
+    <div id="property-index-list" class="index-container">
+        <div class="filter-container">
+            <input type="text" class="item-filter" oninput="applyFilter()" placeholder="Property Search">
         </div>
-        <div class="add-property-container">
-            <input class="add-property-name" type="text" placeholder="Add Property"></input>
-            <button class="add-property-button" onclick="addProperty()">↩</button>
+        <div class="add-item-container">
+            <input class="name-input" type="text" placeholder="Add Property"></input>
+            <button class="add-button" onclick="addItem()">↩</button>
         </div>
-        <div id="property-index-list">
-            <div class="index-template" hidden>
-                <a class="index-link" onclick="displayProperty(this)"></a>
-                <div class="index-selector" hidden>▸</div>
+        <div class="index-list">
+            <div class="index-item-template" hidden>
+                <a class="item-link" onclick="displayDescription(this)"></a>
+                <div class="item-selector" hidden>▸</div>
             </div>
         </div>
-    </span>
+    </div>
     <span id="property-description-container">
         <textarea id="description-area" oninput="updateDescription(this)" placeholder="Write your property description here..."></textarea>
     </span>
