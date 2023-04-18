@@ -9,9 +9,9 @@
 </div>
 
 <div id="content">
-    <div id="property-index-list" class="index-container">
+    <span id="property-index-list" class="index-container">
         <div class="filter-container">
-            <input type="text" class="item-filter" oninput="applyFilter()" placeholder="Property Search">
+            <input type="text" class="item-filter" oninput="applyPropertyFilter()" placeholder="Property Search">
         </div>
         <div class="add-item-container">
             <input class="name-input" type="text" placeholder="Add Property"></input>
@@ -23,9 +23,29 @@
                 <div class="item-selector" hidden>▸</div>
             </div>
         </div>
-    </div>
+    </span>
+
     <span id="property-description-container">
-        <textarea id="description-area" oninput="updateDescription(this)" placeholder="Write your property description here..."></textarea>
+        <h3 id="inital-description-message" style="margin: auto; width: fit-content;">Click a property to access its
+            description page</h3>
+        <textarea id="description-area" oninput="updateDescription(this)" placeholder="Write your property description here..." hidden></textarea>
+        <button id="remove-property" onclick="removeProperty()" hidden>Remove Property</button>
+    </span>
+
+    <span id="item-index-list" class="index-container">
+        <div class="filter-container">
+            <input type="text" class="item-filter" oninput="applyItemFilter()" placeholder="Item Search">
+        </div>
+        <div class="add-item-container" style="visibility: hidden;">
+            <input class="name-input" type="text"></input>
+            <button class="add-button">↩</button>
+        </div>
+        <div class="index-list">
+            <div class="index-item-template" hidden>
+                <a class="item-link" onclick="applyActiveProperty(this)"></a>
+                <div class="item-selector" hidden>▸</div>
+            </div>
+        </div>
     </span>
 </div>
 

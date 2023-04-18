@@ -17,7 +17,7 @@ function addItem() {
         if (item.name == newItemName) {
             itemExists = true;
         }
-    });
+    }); 
 
     if (!itemExists) {
         recipeData.items.push({

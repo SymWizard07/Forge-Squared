@@ -32,6 +32,19 @@ body {
     justify-content: center;
 }
 
+#property-index-list {
+    width: 35%;
+}
+
+#item-index-list {
+    width: 35%;
+}
+
+#property-description-container {
+    width: 30%;
+    height: 100%;
+    border: 2px double black;
+}
 #description-area {
     width: calc(100% - 8px);
     aspect-ratio: 1;

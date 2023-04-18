@@ -4,7 +4,8 @@ var contentFrame = document.getElementById("content");
 
 var recipeData = {
     recipes: [],
-    items: []
+    items: [],
+    properties: []
 }
 
 var saveSettings = {
