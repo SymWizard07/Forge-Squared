@@ -168,14 +168,20 @@ function addRecipeInput(element) {
     if (element.parentElement.className == "ingredient") {
         newItem.dataset.itemId = recipeData.recipes[element.parentElement.parentElement.dataset.recipeId].ingredients.length;
         recipeData.recipes[element.parentElement.parentElement.dataset.recipeId].ingredients.push({
-            item: "",
+            item: {
+                name: "",
+                properties: []
+            },
             amount: 1
         });
     }
     else {
         newItem.dataset.itemId = recipeData.recipes[element.parentElement.parentElement.dataset.recipeId].results.length;
         recipeData.recipes[element.parentElement.parentElement.dataset.recipeId].results.push({
-            item: "",
+            item: {
+                name: "",
+                properties: []
+            },
             amount: 1
         });
     }
@@ -215,10 +221,10 @@ function updateText(element, isIngredient) {
     for (let i = 0; i < recipeData.recipes.length; i++) {
         if (recipeData.recipes[i].id == element.parentElement.parentElement.parentElement.dataset.recipeId) {
             if (isIngredient) {
-                recipeData.recipes[i].ingredients[element.parentElement.dataset.itemId].item = element.value;
+                recipeData.recipes[i].ingredients[element.parentElement.dataset.itemId].item.name = element.value;
             }
             else {
-                recipeData.recipes[i].results[element.parentElement.dataset.itemId].item = element.value;
+                recipeData.recipes[i].results[element.parentElement.dataset.itemId].item.name = element.value;
             }
 
             break;
@@ -308,14 +314,14 @@ function applyFilter() {
     recipeData.recipes.forEach(recipe => {
         if (activeFilter == "ingredient") {
             recipe.ingredients.forEach(ingredient => {
-                if (ingredient.item == filterText) {
+                if (ingredient.item.name == filterText) {
                     filteredIndexes.push(recipe.id);
                 }
             });
         }
         if (activeFilter == "result") {
             recipe.results.forEach(result => {
-                if (result.item == filterText) {
+                if (result.item.name == filterText) {
                     filteredIndexes.push(recipe.id);
                 }
             });

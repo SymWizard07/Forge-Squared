@@ -1,6 +1,6 @@
 var recipeData = window.parent.recipeData;
 
-var activeDescription;
+var activeProperty;
 
 var propertyList = document.querySelector("#property-index-list");
 var itemList = document.querySelector("#item-index-list");
@@ -61,13 +61,14 @@ function displayProperty(property, top) {
     }
 }
 
-function displayItem(item, top) {
+function displayItem(item, top, hasActiveProp) {
     let indexList = itemList.querySelector(".index-list");
 
     let newItem = itemList.querySelector(".index-list .index-item-template").cloneNode(true);
     newItem.className = "index-item";
     newItem.hidden = false;
     newItem.querySelector("a").textContent = item;
+    newItem.dataset.hasActiveProp = hasActiveProp | false;
 
     if (item == "") {
         newItem.querySelector("a").textContent = "No items to display.";
@@ -84,7 +85,7 @@ function displayItem(item, top) {
 }
 
 function displayDescription(link) {
-    activeDescription = link.textContent;
+    activeProperty = link.textContent;
 
     document.getElementById("inital-description-message").hidden = true;
     let descriptionArea = document.getElementById("description-area");
@@ -100,7 +101,7 @@ function displayDescription(link) {
     descriptionArea.value = "";
 
     recipeData.properties.forEach(property => {
-        if (property.name == activeDescription) {
+        if (property.name == activeProperty) {
             descriptionArea.value = property.description;
         }
     });
@@ -111,7 +112,7 @@ function updateDescription(descriptionArea) {
 
     for (let i = 0; i < recipeData.properties.length; i++) {
         let property = recipeData.properties[i];
-        if (activeDescription == property.name) {
+        if (activeProperty == property.name) {
             hasDescription = true;
 
             property.description = descriptionArea.value;
@@ -122,7 +123,7 @@ function updateDescription(descriptionArea) {
 
     if (!hasDescription) {
         recipeData.properties.push({
-            name: activeDescription,
+            name: activeProperty,
             description: descriptionArea.textContent
         });
     }
@@ -130,7 +131,7 @@ function updateDescription(descriptionArea) {
 
 function removeProperty() {
     for (let i = 0; i < recipeData.properties.length; i++) {
-        if (activeDescription == recipeData.properties[i].name) {
+        if (activeProperty == recipeData.properties[i].name) {
             recipeData.properties.splice(i, 1);
 
             applyPropertyFilter();
@@ -153,14 +154,20 @@ function applyActiveProperty(itemLink) {
                 item.properties = [];
             }
             item.properties.forEach(property => {
-                if (property == activeDescription) {
+                if (property == activeProperty) {
                     return;
                 }
             });
-            item.properties.push(activeDescription);
+            item.properties.push(activeProperty);
         }
     });
 }
+
+Coloris({
+    alpha: false,
+    swatches: [],
+    clearButton: true
+})
 
 propertyList.querySelector(".item-filter").addEventListener("keypress", e => {
     if (e.key == "Enter") {
@@ -215,11 +222,11 @@ function applyItemFilter() {
     let filterText = itemList.querySelector(".item-filter").value;
     filterText = filterText.toLowerCase();
 
-    let filteredStrings = [];
+    let filteredStringMap = [];
 
     function isRepeat(e) {
-        for (let i = 0; i < filteredStrings.length; i++) {
-            if (filteredStrings[i] == e) {
+        for (let i = 0; i < filteredStringMap.length; i++) {
+            if (filteredStringMap[i][0] == e) {
                 return true;
             }
         }
@@ -229,9 +236,9 @@ function applyItemFilter() {
 
     recipeData.recipes.forEach(recipe => {
         recipe.ingredients.forEach(ingredient => {
-            if (ingredient.item != null && ingredient.item.toLowerCase().startsWith(filterText)) {
-                if (!isRepeat(ingredient.item)) {
-                    filteredStrings.push(ingredient.item);
+            if (ingredient.item.name != null && ingredient.item.name.toLowerCase().startsWith(filterText)) {
+                if (!isRepeat(ingredient.item.name)) {
+                    filteredStringMap.push([ingredient.item, false]);
                 }
             }
         });
@@ -239,7 +246,7 @@ function applyItemFilter() {
         recipe.results.forEach(result => {
             if (result.item != null && result.item.toLowerCase().startsWith(filterText)) {
                 if (!isRepeat(result.item)) {
-                    filteredStrings.push(result.item);
+                    filteredStringMap.push([result.item, false]);
                 }
             }
         });
@@ -247,18 +254,30 @@ function applyItemFilter() {
     recipeData.items.forEach(item => {
         if (item.name.toLowerCase().startsWith(filterText)) {
             if (!isRepeat(item.name)) {
-                filteredStrings.push(item.name);
+                    filteredStringMap.push([item.name, false]);
             }
         }
     });
 
-    filteredStrings.sort();
-
-    filteredStrings.forEach(item => {
-        displayItem(item);
+    filteredStringMap.sort((a, b) => {
+        if (a[0] > b[0]) return 1;
+        if (a[0] < b[0]) return -1;
+        return 0;
     });
 
-    if (filteredStrings.length == 0) {
+    filteredStringMap.forEach(e => {
+        recipeData.items.forEach(item => {
+            if (item.name == e[0] && item.properites != undefined) {
+                e[1] = item.properties.includes(activeProperty);
+            }
+        });
+    });
+
+    filteredStringMap.forEach(e => {
+        displayItem(e[0], false, e[1]);
+    });
+
+    if (filteredStringMap.length == 0) {
         displayItem("");
     }
 }

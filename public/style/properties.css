@@ -40,14 +40,27 @@ body {
     width: 35%;
 }
 
+#item-index-list .index-list .index-item[data-has-active-prop="true"] a::before {
+    content: "◂";
+    color: #2C0E8C;
+}
+
 #property-description-container {
     width: 30%;
-    height: 100%;
     border: 2px double black;
 }
 #description-area {
     width: calc(100% - 8px);
-    aspect-ratio: 1;
+    height: 45%;
     resize: none;
     background-color: #bebbaf;
+}
+
+#property-options {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#property-options element {
+    width: 20%;
 }

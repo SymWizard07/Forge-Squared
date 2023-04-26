@@ -158,3 +158,53 @@
     text-align: center;
     color: #2C0E8C;
 }
+
+/* Global Button Style */
+
+/* Normal Button */
+
+.forge-btn {
+    background-color: #61666A;
+    border: 2px solid black;
+    color: white;
+    text-align: center;
+    font-size: 90%;
+}
+.forge-btn:hover {
+    color: grey;
+}
+.forge-btn:active {
+    color: #1d1e20;
+}
+
+/* Danger Button */
+
+.danger-btn {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+.danger-btn:hover {
+    background-color: #9a0000;
+}
+.danger-btn:active {
+    color: red;
+    background-color: white;
+}
+
+#property-instructions {
+    background-color: #61666A;
+    border: 2px solid black;
+    border-radius: 5px;
+    height: auto;
+    padding: 20px;
+    color: white;
+    margin: 5px;
+}
+
+#property-instructions p {
+    margin: 5px;
+    font-size: large;
+    text-align: center;
+}

@@ -29,7 +29,16 @@
         <h3 id="inital-description-message" style="margin: auto; width: fit-content;">Click a property to access its
             description page</h3>
         <textarea id="description-area" oninput="updateDescription(this)" placeholder="Write your property description here..." hidden></textarea>
-        <button id="remove-property" onclick="removeProperty()" hidden>Remove Property</button>
+        <div id="property-options">
+            <button id="item-removal" class="forge-btn">Item Removal</button>
+            <input type="text" placeholder="Property Color" data-coloris>
+            <button id="remove-property" onclick="removeProperty()" class="danger-btn" hidden>Remove Property</button>
+        </div>
+        <div id="property-instructions">
+            <p>
+                Click an item on the right to allow it to have this property.
+            </p>
+        </div>
     </span>
 
     <span id="item-index-list" class="index-container">
@@ -48,6 +57,10 @@
         </div>
     </span>
 </div>
+
+<!-- https://github.com/mdbassit/Coloris -->
+<link rel="stylesheet" href="../style/coloris.min.css"/>
+<script src="../js/coloris.min.js"></script>
 
 <link rel="stylesheet" href="../style/properties.css">
 <link id="shared-style" rel="stylesheet" href="../shared.css">
