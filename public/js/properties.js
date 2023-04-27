@@ -68,7 +68,7 @@ function displayItem(item, top, hasActiveProp) {
     newItem.className = "index-item";
     newItem.hidden = false;
     newItem.querySelector("a").textContent = item;
-    newItem.dataset.hasActiveProp = hasActiveProp | false;
+    newItem.dataset.hasActiveProp = hasActiveProp;
 
     if (item == "") {
         newItem.querySelector("a").textContent = "No items to display.";
@@ -87,9 +87,10 @@ function displayItem(item, top, hasActiveProp) {
 function displayDescription(link) {
     activeProperty = link.textContent;
 
-    document.getElementById("inital-description-message").hidden = true;
+    document.querySelector("#property-instructions p").textContent = "Click an item to allow it to have this property.";
     let descriptionArea = document.getElementById("description-area");
     descriptionArea.hidden = false;
+    document.getElementById("property-options").hidden = false;
     document.getElementById("remove-property").hidden = false;
 
     propertyList.querySelectorAll(".item-selector").forEach(element => {
@@ -105,6 +106,8 @@ function displayDescription(link) {
             descriptionArea.value = property.description;
         }
     });
+
+    applyItemFilter();
 }
 
 function updateDescription(descriptionArea) {
@@ -136,15 +139,17 @@ function removeProperty() {
 
             applyPropertyFilter();
 
-            document.getElementById("inital-description-message").hidden = false;
             let descriptionArea = document.getElementById("description-area");
             descriptionArea.hidden = true;
-            document.getElementById("remove-property").hidden = true;
+            document.getElementById("property-options").hidden = true;
         }
     }
 }
 
 function applyActiveProperty(itemLink) {
+    if (activeProperty == undefined)
+        return;
+
     let itemName = itemLink.textContent;
 
     let itemExists = false;
@@ -161,6 +166,8 @@ function applyActiveProperty(itemLink) {
             item.properties.push(activeProperty);
         }
     });
+
+    applyItemFilter();
 }
 
 Coloris({
@@ -236,9 +243,9 @@ function applyItemFilter() {
 
     recipeData.recipes.forEach(recipe => {
         recipe.ingredients.forEach(ingredient => {
-            if (ingredient.item.name != null && ingredient.item.name.toLowerCase().startsWith(filterText)) {
+            if (ingredient.item != null && ingredient.item.name.toLowerCase().startsWith(filterText)) {
                 if (!isRepeat(ingredient.item.name)) {
-                    filteredStringMap.push([ingredient.item, false]);
+                    filteredStringMap.push([ingredient.item.name, false]);
                 }
             }
         });
@@ -246,7 +253,7 @@ function applyItemFilter() {
         recipe.results.forEach(result => {
             if (result.item != null && result.item.toLowerCase().startsWith(filterText)) {
                 if (!isRepeat(result.item)) {
-                    filteredStringMap.push([result.item, false]);
+                    filteredStringMap.push([result.item.name, false]);
                 }
             }
         });
@@ -267,7 +274,8 @@ function applyItemFilter() {
 
     filteredStringMap.forEach(e => {
         recipeData.items.forEach(item => {
-            if (item.name == e[0] && item.properites != undefined) {
+            if (item.name == e[0] && item.properties != undefined) {
+                console.log(item.properties);
                 e[1] = item.properties.includes(activeProperty);
             }
         });
@@ -278,7 +286,7 @@ function applyItemFilter() {
     });
 
     if (filteredStringMap.length == 0) {
-        displayItem("");
+        displayItem("", false, false);
     }
 }
 

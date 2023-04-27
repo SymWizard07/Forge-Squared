@@ -41,13 +41,14 @@ body {
 }
 
 #item-index-list .index-list .index-item[data-has-active-prop="true"] a::before {
-    content: "◂";
-    color: #2C0E8C;
+    content: " • ";
+    color: #f7ff5b;
 }
 
 #property-description-container {
     width: 30%;
     border: 2px double black;
+    position: relative;
 }
 #description-area {
     width: calc(100% - 8px);
@@ -60,7 +61,31 @@ body {
     display: flex;
     justify-content: space-evenly;
 }
+#property-options[hidden] {
+    display: none;
+}
+#property-options > button {
+    width: 40%;
+}
 
-#property-options element {
-    width: 20%;
+#property-options-2 {
+    display: flex;
+    justify-content: space-evenly;
+}
+#property-options-2 > * {
+    width: 40%;
+}
+
+#remove-property-container {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+}
+#remove-property-container button {
+    width: 50%;
+    height: 100%;
+    font-size: 100%;
 }

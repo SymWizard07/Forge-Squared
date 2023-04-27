@@ -221,9 +221,15 @@ function updateText(element, isIngredient) {
     for (let i = 0; i < recipeData.recipes.length; i++) {
         if (recipeData.recipes[i].id == element.parentElement.parentElement.parentElement.dataset.recipeId) {
             if (isIngredient) {
+                if (recipeData.recipes[i].ingredients[element.parentElement.dataset.itemId].item == undefined) {
+                    recipeData.recipes[i].ingredients[element.parentElement.dataset.itemId].item = { name: "", properties: [] };
+                }
                 recipeData.recipes[i].ingredients[element.parentElement.dataset.itemId].item.name = element.value;
             }
             else {
+                if (recipeData.recipes[i].results[element.parentElement.dataset.itemId].item == undefined) {
+                    recipeData.recipes[i].results[element.parentElement.dataset.itemId].item = { name: "", properties: [] };
+                }
                 recipeData.recipes[i].results[element.parentElement.dataset.itemId].item.name = element.value;
             }
 

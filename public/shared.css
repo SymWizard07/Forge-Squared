@@ -171,10 +171,10 @@
     font-size: 90%;
 }
 .forge-btn:hover {
-    color: grey;
+    border-color: grey;
 }
 .forge-btn:active {
-    color: #1d1e20;
+    background-color: #1d1e20;
 }
 
 /* Danger Button */

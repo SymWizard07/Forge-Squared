@@ -178,7 +178,7 @@ function applyFilter() {
 
     recipeData.recipes.forEach(recipe => {
         recipe.ingredients.forEach(ingredient => {
-            if (ingredient.item.name != null && ingredient.item.name.toLowerCase().startsWith(filterText)) {
+            if (ingredient.item != null && ingredient.item.name.toLowerCase().startsWith(filterText)) {
                 if (!isRepeat(ingredient.item.name)) {
                     filteredStrings.push(ingredient.item.name);
                 }
@@ -186,7 +186,7 @@ function applyFilter() {
         });
 
         recipe.results.forEach(result => {
-            if (result.item.name != null && result.item.name.toLowerCase().startsWith(filterText)) {
+            if (result.item != null && result.item.name.toLowerCase().startsWith(filterText)) {
                 if (!isRepeat(result.item.name)) {
                     filteredStrings.push(result.item.name);
                 }

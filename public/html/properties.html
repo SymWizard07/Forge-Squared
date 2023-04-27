@@ -26,18 +26,22 @@
     </span>
 
     <span id="property-description-container">
-        <h3 id="inital-description-message" style="margin: auto; width: fit-content;">Click a property to access its
-            description page</h3>
         <textarea id="description-area" oninput="updateDescription(this)" placeholder="Write your property description here..." hidden></textarea>
-        <div id="property-options">
+        <div id="property-options" hidden>
             <button id="item-removal" class="forge-btn">Item Removal</button>
             <input type="text" placeholder="Property Color" data-coloris>
-            <button id="remove-property" onclick="removeProperty()" class="danger-btn" hidden>Remove Property</button>
         </div>
         <div id="property-instructions">
             <p>
-                Click an item on the right to allow it to have this property.
+                Click a property to access its description page.
             </p>
+        </div>
+        <div id="property-options-2">
+            <button id="set-any" class="forge-btn">Set Any</button>
+            <button id="set-none" class="forge-btn">Set None</button>
+        </div>
+        <div id="remove-property-container">
+            <button id="remove-property" onclick="removeProperty()" class="danger-btn" hidden>Remove Property</button>
         </div>
     </span>
 
