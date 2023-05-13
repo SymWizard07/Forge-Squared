@@ -5,22 +5,27 @@ var activeProperty;
 var propertyList = document.querySelector("#property-index-list");
 var itemList = document.querySelector("#item-index-list");
 
+var itemRemovalActive = false;
+
 propertyList.querySelector(".name-input").addEventListener("keypress", e => {
     if (e.key == "Enter") {
         addProperty();
     }
 });
 
+// Adds a property to the filtered list and re-filters it.
 function addProperty() {
     let newPropName = propertyList.querySelector(".name-input").value;
     propertyList.querySelector(".name-input").value = "";
+
+    newPropName = capitalize(newPropName);
 
     let propExists = false;
     recipeData.properties.forEach(property => {
         if (property.name == newPropName) {
             propExists = true;
         }
-    }); 
+    });
 
     if (!propExists) {
         recipeData.properties.push({
@@ -39,6 +44,7 @@ function addProperty() {
     }
 }
 
+// Displays the filtered property list, one at a time. Called from applyPropertyFilter.
 function displayProperty(property, top) {
     let indexList = propertyList.querySelector(".index-list");
 
@@ -51,7 +57,14 @@ function displayProperty(property, top) {
         newItem.querySelector("a").textContent = "No properties to display.";
         newItem.querySelector("a").className = "empty-link";
         newItem.querySelector("a").onclick = null;
+        newItem.querySelector(".property-color").hidden = true;
     }
+
+    recipeData.properties.forEach(propertyData => {
+        if (propertyData.name == property) {
+            newItem.querySelector(".property-color").style.setProperty("--property-color", propertyData.color);
+        }
+    });
 
     if (!top) {
         indexList.appendChild(newItem);
@@ -61,6 +74,7 @@ function displayProperty(property, top) {
     }
 }
 
+// Displays the filtered item list, one at a time. Called from applyItemFilter.
 function displayItem(item, top, hasActiveProp) {
     let indexList = itemList.querySelector(".index-list");
 
@@ -76,6 +90,21 @@ function displayItem(item, top, hasActiveProp) {
         newItem.querySelector("a").onclick = null;
     }
 
+    recipeData.items.forEach(itemData => {
+        if (itemData.name == item) {
+            recipeData.properties.forEach(propertyData => {
+                if (propertyData.color != undefined && itemData.properties != undefined && itemData.properties.includes(propertyData.name)) {
+                    let newPropColor = newItem.querySelector(".property-color-template").cloneNode();
+                    newPropColor.className = "property-color";
+                    newPropColor.hidden = false;
+                    newPropColor.style.setProperty("--property-color", propertyData.color);
+
+                    newItem.appendChild(newPropColor);
+                }
+            })
+        }
+    })
+
     if (!top) {
         indexList.appendChild(newItem);
     }
@@ -84,14 +113,31 @@ function displayItem(item, top, hasActiveProp) {
     }
 }
 
+// Displays the property description, item applier, and property color picker.
 function displayDescription(link) {
     activeProperty = link.textContent;
 
-    document.querySelector("#property-instructions p").textContent = "Click an item to allow it to have this property.";
+    if (itemRemovalActive) {
+        toggleItemRemoval(document.querySelector("#item-removal"));
+    }
+    setInstruction();
     let descriptionArea = document.getElementById("description-area");
     descriptionArea.hidden = false;
     document.getElementById("property-options").hidden = false;
+    document.getElementById("property-options-2").hidden = false;
     document.getElementById("remove-property").hidden = false;
+    document.getElementById("close-description").hidden = false;
+
+    let color = "";
+    recipeData.properties.forEach(property => {
+        if (property.name == activeProperty) {
+            if (property.color != undefined) {
+                color = property.color;
+            }
+        }
+    });
+    document.querySelector('#color-field').value = color;
+    document.querySelector('#color-field').dispatchEvent(new Event('input', { bubbles: true }));
 
     propertyList.querySelectorAll(".item-selector").forEach(element => {
         element.hidden = true;
@@ -110,6 +156,21 @@ function displayDescription(link) {
     applyItemFilter();
 }
 
+// Closes the property description, item applier, and property color picker and allows the user to either select another property to edit or open the item property editor.
+function closeDescription() {
+    document.getElementById("description-area").hidden = true;
+    document.getElementById("property-options").hidden = true;
+    document.getElementById("property-options-2").hidden = true;
+    document.getElementById("remove-property").hidden = true;
+    document.getElementById("close-description").hidden = true;
+
+    activeProperty = undefined;
+    setInstruction();
+    applyPropertyFilter();
+    applyItemFilter();
+}
+
+// Updates description in internal storage when changed.
 function updateDescription(descriptionArea) {
     let hasDescription = false;
 
@@ -132,6 +193,12 @@ function updateDescription(descriptionArea) {
     }
 }
 
+// Displays the item property editor.
+function displayItemPropEditor() {
+
+}
+
+// Removes the property entirely.
 function removeProperty() {
     for (let i = 0; i < recipeData.properties.length; i++) {
         if (activeProperty == recipeData.properties[i].name) {
@@ -142,10 +209,35 @@ function removeProperty() {
             let descriptionArea = document.getElementById("description-area");
             descriptionArea.hidden = true;
             document.getElementById("property-options").hidden = true;
+            document.getElementById("property-options-2").hidden = true;
+            document.getElementById("remove-property").hidden = true;
+            document.getElementById("close-description").hidden = true;
         }
+    }
+
+    removeActivePropertyAll();
+
+    activeProperty = undefined;
+    setInstruction();
+}
+
+// Processes an item click based on current active triggers.
+function handleItemLink(itemLink) {
+    if (activeProperty == undefined) {
+        displayItemPropEditor(itemLink);
+        return;
+    }
+    if (itemRemovalActive) {
+        removeActiveProperty(itemLink);
+        return;
+    }
+    else {
+        applyActiveProperty(itemLink);
+        return;
     }
 }
 
+// Adds a property to a clicked item.
 function applyActiveProperty(itemLink) {
     if (activeProperty == undefined)
         return;
@@ -155,26 +247,111 @@ function applyActiveProperty(itemLink) {
     let itemExists = false;
     recipeData.items.forEach(item => {
         if (item.name == itemName) {
+            itemExists = true;
             if (item.properties == undefined) {
                 item.properties = [];
             }
-            item.properties.forEach(property => {
-                if (property == activeProperty) {
+            for (let i = 0; i < item.properties.length; i++) {
+                if (item.properties[i] == activeProperty) {
                     return;
                 }
-            });
+            }
             item.properties.push(activeProperty);
+        }
+    });
+
+    if (!itemExists) {
+        recipeData.items.push({
+            name: itemName,
+            description: "",
+            properties: [activeProperty]
+        });
+    }
+
+    applyItemFilter();
+}
+
+// Removes a property from a clicked item.
+function removeActiveProperty(itemLink) {
+    if (activeProperty == undefined)
+        return;
+
+    let itemName = itemLink.textContent;
+
+    recipeData.items.forEach(item => {
+        if (item.name == itemName) {
+            if (item.properties != undefined) {
+                for (let i = 0; i < item.properties.length; i++) {
+                    if (item.properties[i] == activeProperty) {
+                        item.properties.splice(i, 1);
+                    }
+                }
+            }
         }
     });
 
     applyItemFilter();
 }
 
+// Adds the active property to all items in list.
+function applyActivePropertyAll() {
+    let itemList = document.querySelector("#item-index-list .index-list");
+    let itemLinks = itemList.querySelectorAll(".index-item .item-link");
+
+    itemLinks.forEach(itemLink => {
+        applyActiveProperty(itemLink);
+    });
+}
+
+// Removes the active property from all items in list.
+function removeActivePropertyAll() {
+    let itemList = document.querySelector("#item-index-list .index-list");
+    let itemLinks = itemList.querySelectorAll(".index-item .item-link");
+
+    itemLinks.forEach(itemLink => {
+        removeActiveProperty(itemLink);
+    });
+}
+
+// Toggles items to be stripped of the active property when clicked.
+function toggleItemRemoval(btn) {
+    itemRemovalActive = !itemRemovalActive;
+    btn.dataset.activeToggle = itemRemovalActive;
+
+    setInstruction();
+}
+
+// Sets the current instruction text for the user based on active triggers.
+function setInstruction() {
+    document.querySelector("#property-instructions p").textContent = "Click a Property to access its description page, or an Item to change its property values.";
+
+    if (activeProperty != undefined) {
+        document.querySelector("#property-instructions p").textContent = "Click an item to allow it to have this property.";
+        if (itemRemovalActive) {
+            document.querySelector("#property-instructions p").textContent = "Click an item remove this property from it.";
+        }
+    }
+}
+
 Coloris({
     alpha: false,
     swatches: [],
     clearButton: true
-})
+});
+
+// Updates color of property in internal storage. List colors are updated by the filter.
+function setColor() {
+    let propColor = document.querySelector("#property-description-container .clr-field").style.color;
+
+    recipeData.properties.forEach(property => {
+        if (property.name == activeProperty) {
+            property.color = rgbToHex(propColor);
+        }
+    });
+
+    applyPropertyFilter();
+    applyItemFilter();
+}
 
 propertyList.querySelector(".item-filter").addEventListener("keypress", e => {
     if (e.key == "Enter") {
@@ -182,6 +359,7 @@ propertyList.querySelector(".item-filter").addEventListener("keypress", e => {
     }
 });
 
+// Looks through all properties beginning with filter string and sorts them alphanumerically into the filtered property list. Calls display function for each property.
 function applyPropertyFilter() {
     propertyList.querySelectorAll(".index-list .index-item").forEach(e => {
         e.remove();
@@ -221,6 +399,7 @@ function applyPropertyFilter() {
     }
 }
 
+// Looks through items contained in recipeData recipes and items, and uses filter string to sort alphanumerically into the filtered item list. Calls display function per item.
 function applyItemFilter() {
     itemList.querySelectorAll(".index-list .index-item").forEach(e => {
         e.remove();
@@ -251,7 +430,7 @@ function applyItemFilter() {
         });
 
         recipe.results.forEach(result => {
-            if (result.item != null && result.item.toLowerCase().startsWith(filterText)) {
+            if (result.item != null && result.item.name.toLowerCase().startsWith(filterText)) {
                 if (!isRepeat(result.item)) {
                     filteredStringMap.push([result.item.name, false]);
                 }
@@ -261,7 +440,7 @@ function applyItemFilter() {
     recipeData.items.forEach(item => {
         if (item.name.toLowerCase().startsWith(filterText)) {
             if (!isRepeat(item.name)) {
-                    filteredStringMap.push([item.name, false]);
+                filteredStringMap.push([item.name, false]);
             }
         }
     });
@@ -275,7 +454,6 @@ function applyItemFilter() {
     filteredStringMap.forEach(e => {
         recipeData.items.forEach(item => {
             if (item.name == e[0] && item.properties != undefined) {
-                console.log(item.properties);
                 e[1] = item.properties.includes(activeProperty);
             }
         });
@@ -288,6 +466,31 @@ function applyItemFilter() {
     if (filteredStringMap.length == 0) {
         displayItem("", false, false);
     }
+}
+
+// function provided courtesy of ChatGPT
+function capitalize(str) {
+    if (str.length === 0) {
+        return ""; // return an empty string if input is empty
+    }
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+// ChatGPT
+function rgbToHex(rgbString) {
+    // Get the individual RGB values
+    const [r, g, b] = rgbString
+        .substring(rgbString.indexOf("(") + 1, rgbString.lastIndexOf(")"))
+        .split(",")
+        .map((val) => parseInt(val.trim()));
+
+    // Convert to hex
+    const hexValue = ((r << 16) | (g << 8) | b).toString(16);
+
+    // Add leading zeros if necessary
+    const hexString = "#" + "0".repeat(6 - hexValue.length) + hexValue;
+
+    return hexString;
 }
 
 applyPropertyFilter();

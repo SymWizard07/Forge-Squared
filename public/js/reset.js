@@ -15,6 +15,7 @@ resetConfirmButton.addEventListener('click', () => {
 
     window.parent.recipeData = {
         recipes: [],
-        items: []
+        items: [],
+        properties: []
     }
 })

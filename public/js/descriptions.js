@@ -12,6 +12,8 @@ function addItem() {
     let newItemName = document.querySelector(".name-input").value;
     document.querySelector(".name-input").value = "";
 
+    newItemName = capitalize(newItemName);
+
     let itemExists = false;
     recipeData.items.forEach(item => {
         if (item.name == newItemName) {
@@ -223,4 +225,12 @@ function encodeImageFileAsURL(element) {
         updateImage(imageArea);
     }
     reader.readAsDataURL(file);
+}
+
+// function provided courtesy of ChatGPT
+function capitalize(str) {
+    if (str.length === 0) {
+        return ""; // return an empty string if input is empty
+    }
+    return str.charAt(0).toUpperCase() + str.slice(1);
 }

@@ -124,7 +124,6 @@ function parseData(jsonContent, metadataOnly) {
             window.parent.saveSettings = jsonData;
             saveSettings = window.parent.saveSettings
             loadSaveSettings();
-            console.log("Test");
             loadStatus.textContent += ", Metadata Loaded";
             return;
         }

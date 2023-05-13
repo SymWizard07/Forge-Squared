@@ -20,29 +20,56 @@
         <div class="index-list">
             <div class="index-item-template" hidden>
                 <a class="item-link" onclick="displayDescription(this)"></a>
+                <div class="property-color"></div>
                 <div class="item-selector" hidden>▸</div>
             </div>
         </div>
     </span>
 
-    <span id="property-description-container">
-        <textarea id="description-area" oninput="updateDescription(this)" placeholder="Write your property description here..." hidden></textarea>
-        <div id="property-options" hidden>
-            <button id="item-removal" class="forge-btn">Item Removal</button>
-            <input type="text" placeholder="Property Color" data-coloris>
-        </div>
-        <div id="property-instructions">
-            <p>
-                Click a property to access its description page.
-            </p>
-        </div>
-        <div id="property-options-2">
-            <button id="set-any" class="forge-btn">Set Any</button>
-            <button id="set-none" class="forge-btn">Set None</button>
-        </div>
-        <div id="remove-property-container">
-            <button id="remove-property" onclick="removeProperty()" class="danger-btn" hidden>Remove Property</button>
-        </div>
+    <span id="property-editor-container">
+        <span id="property-description-container">
+            <textarea id="description-area" oninput="updateDescription(this)"
+                placeholder="Write your property description here..." hidden></textarea>
+            <div id="property-options" hidden>
+                <button id="item-removal" class="forge-btn" onclick="toggleItemRemoval(this)">Item Removal</button>
+                <input id="color-field" type="text" placeholder="Property Color" data-coloris onchange="setColor()">
+            </div>
+            <div id="property-instructions">
+                <p>
+                    Click a Property to access its description page, or an Item to change its property values.
+                </p>
+            </div>
+            <div id="property-options-2" hidden>
+                <button id="set-any" class="forge-btn" onclick="applyActivePropertyAll()">Set All</button>
+                <button id="set-none" class="forge-btn" onclick="removeActivePropertyAll()">Set None</button>
+            </div>
+            <div id="close-description-container">
+                <button id="close-description" class="forge-btn" onclick="closeDescription()" hidden>Close Property
+                    Description</button>
+            </div>
+            <div id="remove-property-container">
+                <button id="remove-property" onclick="removeProperty()" class="danger-btn" hidden>Remove
+                    Property</button>
+            </div>
+        </span>
+        <span id="item-property-value-container" hidden>
+            <div id="value-input-container">
+                <div class="property-input-template" hidden>
+                    <div class="numeric-container">
+                        <p class="property-name"></p>
+                        <span class="property-color"></span>
+                        <input type="number" class="property-value" placeholder="Property Value"></input>
+                        <input type="number" class="property-max-value" placeholder="Max Value" hidden></input>
+                    </div>
+                    <div class="option-container">
+                        <p>
+                            Include Max
+                            <input type="checkbox" class="property-max-toggle"></input>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </span>
     </span>
 
     <span id="item-index-list" class="index-container">
@@ -55,7 +82,8 @@
         </div>
         <div class="index-list">
             <div class="index-item-template" hidden>
-                <a class="item-link" onclick="applyActiveProperty(this)"></a>
+                <a class="item-link" onclick="handleItemLink(this)"></a>
+                <div class="property-color-template" hidden></div>
                 <div class="item-selector" hidden>▸</div>
             </div>
         </div>
@@ -63,7 +91,7 @@
 </div>
 
 <!-- https://github.com/mdbassit/Coloris -->
-<link rel="stylesheet" href="../style/coloris.min.css"/>
+<link rel="stylesheet" href="../style/coloris.min.css" />
 <script src="../js/coloris.min.js"></script>
 
 <link rel="stylesheet" href="../style/properties.css">
