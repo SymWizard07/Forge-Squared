@@ -51,6 +51,10 @@ button[data-active-toggle="true"] {
     background-color: var(--property-color);
 }
 
+.index-list .index-item .property-color[hidden] {
+    border: none;
+}
+
 #item-index-list {
     width: 35%;
 }

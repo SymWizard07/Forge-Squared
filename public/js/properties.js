@@ -18,8 +18,6 @@ function addProperty() {
     let newPropName = propertyList.querySelector(".name-input").value;
     propertyList.querySelector(".name-input").value = "";
 
-    newPropName = capitalize(newPropName);
-
     let propExists = false;
     recipeData.properties.forEach(property => {
         if (property.name == newPropName) {
@@ -120,6 +118,7 @@ function displayDescription(link) {
     if (itemRemovalActive) {
         toggleItemRemoval(document.querySelector("#item-removal"));
     }
+    document.getElementById("property-instructions").hidden = false;
     setInstruction();
     let descriptionArea = document.getElementById("description-area");
     descriptionArea.hidden = false;
@@ -193,9 +192,12 @@ function updateDescription(descriptionArea) {
     }
 }
 
-// Displays the item property editor.
-function displayItemPropEditor() {
+// Displays the item property editor. Loops through the active item's properties.
+function displayItemPropEditor(itemLink) {
+    document.getElementById("property-instructions").hidden = true;
+    document.getElementById("item-property-value-container").hidden = false;
 
+    
 }
 
 // Removes the property entirely.
@@ -412,7 +414,7 @@ function applyItemFilter() {
 
     function isRepeat(e) {
         for (let i = 0; i < filteredStringMap.length; i++) {
-            if (filteredStringMap[i][0] == e) {
+            if (filteredStringMap[i][0].toLowerCase() == e.toLowerCase()) {
                 return true;
             }
         }
@@ -431,7 +433,7 @@ function applyItemFilter() {
 
         recipe.results.forEach(result => {
             if (result.item != null && result.item.name.toLowerCase().startsWith(filterText)) {
-                if (!isRepeat(result.item)) {
+                if (!isRepeat(result.item.name)) {
                     filteredStringMap.push([result.item.name, false]);
                 }
             }
@@ -466,14 +468,6 @@ function applyItemFilter() {
     if (filteredStringMap.length == 0) {
         displayItem("", false, false);
     }
-}
-
-// function provided courtesy of ChatGPT
-function capitalize(str) {
-    if (str.length === 0) {
-        return ""; // return an empty string if input is empty
-    }
-    return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 // ChatGPT

@@ -93,9 +93,16 @@ function displayRecipe(recipeId) {
         nextIngredient = ingredientInputTemp.cloneNode(true);
         nextIngredient.hidden = false;
         nextIngredient.className = "input-container";
-        nextIngredient.querySelector(".input-text").value = currentRecipeData.ingredients[i].item;
-        nextIngredient.querySelector(".input-num").value = currentRecipeData.ingredients[i].amount;
+        if (currentRecipeData.ingredients[i].item != null) {
+            nextIngredient.querySelector(".input-text").value = currentRecipeData.ingredients[i].item.name;
+            nextIngredient.querySelector(".input-num").value = currentRecipeData.ingredients[i].amount;
+        }
         nextIngredient.dataset.itemId = i;
+
+        if (i != currentRecipeData.ingredients.length - 1) {
+            nextIngredient.querySelector("button").innerText = "-";
+            nextIngredient.querySelector("button").onclick = removeRecipeInput;
+        }
 
         recipe.querySelector(".ingredient").appendChild(nextIngredient);
     }
@@ -105,9 +112,16 @@ function displayRecipe(recipeId) {
         nextResult = resultInputTemp.cloneNode(true);
         nextResult.hidden = false;
         nextResult.className = "input-container";
-        nextResult.querySelector(".input-text").value = currentRecipeData.results[i].item;
-        nextResult.querySelector(".input-num").value = currentRecipeData.results[i].amount;
+        if (currentRecipeData.results[i].item != null) {
+            nextResult.querySelector(".input-text").value = currentRecipeData.results[i].item.name;
+            nextResult.querySelector(".input-num").value = currentRecipeData.results[i].amount;
+        }
         nextResult.dataset.itemId = i;
+
+        if (i != currentRecipeData.results.length - 1) {
+            nextResult.querySelector("button").innerText = "-";
+            nextResult.querySelector("button").onclick = removeRecipeInput;
+        }
 
         recipe.querySelector(".result").appendChild(nextResult);
     }
@@ -320,14 +334,14 @@ function applyFilter() {
     recipeData.recipes.forEach(recipe => {
         if (activeFilter == "ingredient") {
             recipe.ingredients.forEach(ingredient => {
-                if (ingredient.item.name == filterText) {
+                if (ingredient.item != null && ingredient.item.name == filterText) {
                     filteredIndexes.push(recipe.id);
                 }
             });
         }
         if (activeFilter == "result") {
             recipe.results.forEach(result => {
-                if (result.item.name == filterText) {
+                if (result.item != null && result.item.name == filterText) {
                     filteredIndexes.push(recipe.id);
                 }
             });

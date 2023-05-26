@@ -12,8 +12,6 @@ function addItem() {
     let newItemName = document.querySelector(".name-input").value;
     document.querySelector(".name-input").value = "";
 
-    newItemName = capitalize(newItemName);
-
     let itemExists = false;
     recipeData.items.forEach(item => {
         if (item.name == newItemName) {
@@ -170,7 +168,7 @@ function applyFilter() {
 
     function isRepeat(e) {
         for (let i = 0; i < filteredStrings.length; i++) {
-            if (filteredStrings[i] == e) {
+            if (filteredStrings[i].toLowerCase() == e.toLowerCase()) {
                 return true;
             }
         }
@@ -225,12 +223,4 @@ function encodeImageFileAsURL(element) {
         updateImage(imageArea);
     }
     reader.readAsDataURL(file);
-}
-
-// function provided courtesy of ChatGPT
-function capitalize(str) {
-    if (str.length === 0) {
-        return ""; // return an empty string if input is empty
-    }
-    return str.charAt(0).toUpperCase() + str.slice(1);
 }
